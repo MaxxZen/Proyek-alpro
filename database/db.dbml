@@ -1,0 +1,38 @@
+// Tabel untuk menyimpan data produk/barang
+Table Barang {
+  ID_Barang int [pk, increment, note: 'Primary Key, identifier unik barang']
+  Barcode varchar [note: 'Kode barcode untuk pemindaian']
+  Nama_Barang varchar [note: 'Nama produk']
+  Harga_Beli decimal [note: 'Harga modal']
+  Harga_Jual decimal [note: 'Harga jual ke pelanggan']
+  Stok_Sistem int [note: 'Jumlah stok saat ini di sistem']
+  Batas_Stok_Minimum int [note: 'Batas peringatan stok menipis']
+  Tanggal_Kedaluwarsa date [note: 'Tanggal expired barang']
+}
+
+// Tabel untuk menyimpan data utama (header) dari setiap transaksi
+Table Transaksi_Penjualan {
+  ID_Transaksi varchar [pk, note: 'Primary Key, nomor struk']
+  Tanggal_Waktu datetime [note: 'Waktu transaksi dilakukan']
+  ID_Pengguna int [note: 'Kasir yang melayani']
+  ID_Member int [note: 'Pelanggan (opsional jika member)']
+  Total_Belanja decimal [note: 'Total harga semua barang']
+  Total_Diskon decimal [note: 'Total potongan harga']
+  Metode_Pembayaran varchar [note: 'Cash / QRIS / dll']
+  Jumlah_Bayar decimal [note: 'Uang yang diterima dari pelanggan']
+  Kembalian decimal [note: 'Uang kembalian ke pelanggan']
+}
+
+// Tabel untuk menyimpan item-item (detail) yang dibeli pada setiap transaksi
+Table Detail_Transaksi {
+  ID_Detail_Transaksi int [pk, increment, note: 'Primary Key']
+  ID_Transaksi varchar [note: 'Foreign Key ke Transaksi Penjualan']
+  ID_Barang int [note: 'Foreign Key ke Barang']
+  Kuantitas int [note: 'Jumlah barang yang dibeli']
+  Harga_Satuan decimal [note: 'Harga jual barang pada saat transaksi']
+  Subtotal decimal [note: 'Kuantitas x Harga_Satuan']
+}
+
+// Mendefinisikan Relasi (Relationships)
+Ref: Detail_Transaksi.ID_Transaksi > Transaksi_Penjualan.ID_Transaksi // Relasi One-to-Many
+Ref: Detail_Transaksi.ID_Barang > Barang.ID_Barang // Relasi One-to-Many
