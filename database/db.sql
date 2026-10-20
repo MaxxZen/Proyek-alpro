@@ -1,5 +1,5 @@
 -- MySQL DDL converted from db.dbml.
--- Select the target database before running this file.
+-- Create and select the target database before running this file.
 
 CREATE TABLE `barang` (
     `id_barang` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key, identifier unik barang',
